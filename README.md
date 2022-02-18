@@ -7,6 +7,8 @@ This rep contains files to
 * generate TF providers for vQFX/vMX with the associated xpath
 * deploy a simple 'customer' (1 physical access port + irb) in a vxlan environment, via JSON customer data and J2 generating the HCL
 
+This repo contains an example of the RIGHT way to use HCL resource names (the MX) and the WRONG way (the QFX).
+
 # usage
 
 * follow the blog
