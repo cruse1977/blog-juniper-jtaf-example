@@ -1,0 +1,129 @@
+terraform {
+  required_providers {
+    junos-vmx = {
+      source  = "pulsant.net/nops/junos-vmx"
+      version = ">= 18.2.0"
+    }
+  }
+}
+
+{% for interface in devices.vmx.interfaces %}
+{% set conf_iterator = 1 %}
+{% set interface_name = interface %}		
+{% for interface in devices.vmx.interfaces[interface_name] %}
+{% set interface_unit = interface %}
+{% for prefix in devices.vmx.interfaces[interface_name][interface_unit].prefixes %}
+{% set prefix_data = devices.vmx.interfaces[interface_name][interface_unit].prefixes[prefix] %}
+resource "junos-vmx_InterfacesInterfaceUnitFamilyInetAddressVirtual__Gateway__Address" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}_{{ conf_iterator }}"
+    name = "{{ interface_name }}"
+    name__1 = "{{ interface_unit }}"
+    name__2 = "{{ prefix }}"
+    virtual__gateway__address = "{{ prefix_data.virtual }}"
+}
+{% set conf_iterator = conf_iterator + 1 %}
+{% endfor %}
+
+resource "junos-vmx_InterfacesInterfaceUnitVirtual__Gateway__Accept__Data" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}_{{ conf_iterator }}"
+    name = "{{ interface_name }}"
+    name__1 = "{{ interface_unit }}"
+    virtual__gateway__accept__data = ""
+}
+{% set conf_iterator = conf_iterator + 1 %}
+
+resource "junos-vmx_InterfacesInterfaceUnitProxy__Macip__Advertisement" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}_{{ conf_iterator }}"
+    name = "{{ interface_name }}"
+    name__1 = "{{ interface_unit }}"
+    proxy__macip__advertisement =  ""
+}
+{% set conf_iterator = conf_iterator + 1 %}
+
+resource "junos-vmx_Routing__InstancesInstanceBridge__DomainsDomainVxlanIngress__Node__Replication" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}_{{ conf_iterator }}"
+    name = "RI_DEFAULT-VSWITCH"
+    name__1 = "bd{{ interface_unit }}"
+    ingress__node__replication =  ""
+}
+{% set conf_iterator = conf_iterator + 1 %}
+
+resource "junos-vmx_Routing__InstancesInstanceBridge__DomainsDomainDomain__Type" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}_{{ conf_iterator }}"
+    name = "RI_DEFAULT-VSWITCH"
+	name__1 = "bd{{ interface_unit }}"
+	domain__type = "bridge"
+}
+{% set conf_iterator = conf_iterator + 1 %}
+
+resource "junos-vmx_Routing__InstancesInstanceBridge__DomainsDomainNo__Arp__Suppression" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}_{{ conf_iterator }}"
+    name = "RI_DEFAULT-VSWITCH"
+    name__1 = "bd{{ interface_unit }}"
+    no__arp__suppression = ""
+}
+{% set conf_iterator = conf_iterator + 1 %}
+
+resource "junos-vmx_Routing__InstancesInstanceBridge__DomainsDomainRouting__Interface" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}_{{ conf_iterator }}"
+    name = "RI_DEFAULT-VSWITCH"
+    name__1 = "bd{{ interface_unit }}"
+    routing__interface = "{{ interface_name }}.{{ interface_unit }}"
+}
+{% set conf_iterator = conf_iterator + 1 %}
+
+resource "junos-vmx_Routing__InstancesInstanceBridge__DomainsDomainVxlanVni" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}_{{ conf_iterator }}"
+    name = "RI_DEFAULT-VSWITCH"
+    name__1 = "bd{{ interface_unit }}"
+    vni = "{{ interface_unit }}"
+}
+{% set conf_iterator = conf_iterator + 1 %}
+
+resource "junos-vmx_Policy__OptionsCommunityMembers" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}_{{ conf_iterator }}"
+    name = "comm{{ interface_unit }}"
+    members = "{{ common.target }}"
+}
+{% set conf_iterator = conf_iterator + 1 %}
+
+resource "junos-vmx_Policy__OptionsPolicy__StatementTermFromCommunity" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}_{{ conf_iterator }}"
+    name = "POL_DEFAULT-VSWITCH-IMPORT"
+    name__1 = "t1"
+    community = "comm{{ interface_unit }}"
+}
+{% set conf_iterator = conf_iterator + 1 %}
+
+resource "junos-vmx_Routing__InstancesInstanceBridge__DomainsDomainVlan__Id" "demo"{
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}_{{ conf_iterator }}"
+    name = "RI_DEFAULT-VSWITCH"
+    name__1 = "bd{{ interface_unit }}"
+    vlan__id = "{{ common.vlan }}" 
+}
+{% set conf_iterator = conf_iterator + 1 %}
+
+resource "junos-vmx_Policy__OptionsPolicy__StatementTermThenAccept" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}_{{ conf_iterator }}"
+    name = "POL_DEFAULT-VSWITCH-IMPORT"
+    name__1 = "t1"
+    accept = ""
+}
+{% set conf_iterator = conf_iterator + 1 %}
+
+resource "junos-vmx_Routing__InstancesInstanceProtocolsEvpnExtended__Vni__List" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}_{{ conf_iterator }}"
+    name = "RI_DEFAULT-VSWITCH"
+    extended__vni__list = "{{ interface_unit }}"
+}
+{% set conf_iterator = conf_iterator + 1 %}
+
+resource "junos-vmx_Routing__InstancesInstanceProtocolsEvpnVni__OptionsVniVrf__TargetCommunity" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}_{{ conf_iterator }}"
+    name = "RI_DEFAULT-VSWITCH"
+    name__1 = "{{ interface_unit }}"
+    community = "{{ common.target }}"
+}
+
+{% endfor %}
+{% endfor %}

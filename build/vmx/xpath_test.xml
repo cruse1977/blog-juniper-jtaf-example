@@ -1,0 +1,18 @@
+<file-list>
+    <xpath name="/interfaces/interface/unit/family/inet/address"/>
+    <xpath name="/interfaces/interface/unit/virtual-gateway-accept-data"/>
+    <xpath name="/interfaces/interface/unit/family/inet/address/virtual-gateway-address"/>
+    <xpath name="/policy-options/policy-statement/term/from/community"/>
+    <xpath name="/policy-options/policy-statement/term/then/accept"/>
+    <xpath name="/policy-options/community/members"/>
+    <xpath name="/routing-instances/instance/bridge-domains/domain/vxlan/vni"/>
+    <xpath name="/routing-instances/instance/bridge-domains/domain/vlan-id"/>
+    <xpath name="/routing-instances/instance/bridge-domains/domain/routing-interface"/>
+    <xpath name="/routing-instances/instance/bridge-domains/domain/domain-type"/>
+    <xpath name="/routing-instances/instance/bridge-domains/domain/no-arp-suppression"/>
+    <xpath name="/routing-instances/instance/protocols/evpn/vni-options/vni/vrf-target/community"/>
+    <xpath name="/routing-instances/instance/protocols/evpn/extended-vni-list"/>
+    <xpath name="/interfaces/interface/unit/proxy-macip-advertisement"/>
+    <xpath name="/routing-instances/instance/bridge-domains/domain/vxlan/ingress-node-replication"/>
+</file-list>
+

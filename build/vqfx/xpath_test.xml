@@ -1,0 +1,19 @@
+<file-list>
+	<xpath name="/vlans/vlan/name"/>
+	<xpath name="/vlans/vlan/vlan-id"/>
+	<xpath name="/vlans/vlan/vxlan/vni"/>
+	<xpath name="/vlans/vlan/vxlan/ingress-node-replication"/>
+	<xpath name="/policy-options/policy-statement/term/from/community"/>
+	<xpath name="/policy-options/policy-statement/term/then/accept"/>
+	<xpath name="/policy-options/community/members"/>
+	<xpath name="/protocols/evpn/vni-options/vni/vrf-target/community"/>
+	<xpath name="/protocols/evpn/extended-vni-list"/>
+	<xpath name="/interfaces/interface/unit/family/ethernet-switching/vlan/members"/>
+	<xpath name="/interfaces/interface/mtu"/>
+	<xpath name="/interfaces/interface/unit/mtu"/>
+	<xpath name="/interfaces/interface/unit/family/ethernet-switching/interface-mode"/>
+	<xpath name="/interfaces/interface/unit/family/inet"/>
+	<xpath name="/interfaces/interface/description"/>
+	<xpath name="/interfaces/interface/disable"/>
+</file-list>
+

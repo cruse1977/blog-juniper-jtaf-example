@@ -1,0 +1,5 @@
+yangDir = "/home/kitsupport/workspace/new/build/vmx"
+providerDir = "/home/kitsupport/workspace/new/build/vmx/provider"
+xpathPath = "/home/kitsupport/workspace/new/build/vmx/xpath_test.xml"
+fileType = "both"
+providerName = "vmx"

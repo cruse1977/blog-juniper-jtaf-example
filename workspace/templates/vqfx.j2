@@ -1,0 +1,89 @@
+terraform {
+  required_providers {
+    junos-vqfx = {
+      source  = "pulsant.net/nops/junos-vqfx"
+      version = ">= 19.4.0"
+    }
+  }
+}
+
+resource "junos-vqfx_VlansVlanVlan__Id" "{{ common.customer_id }}_{{ common.solution_id }}-VlanID" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}"
+    name = "vlan{{ common.vlan }}"
+    vlan__id = "{{ common.vlan }}"
+}
+
+resource "junos-vqfx_VlansVlanVxlanVni" "{{ common.customer_id }}_{{ common.solution_id }}-VNIID" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}"
+    name = "vlan{{ common.vlan }}"
+    vni = "{{ common.vni }}"
+}
+
+resource "junos-vqfx_Policy__OptionsCommunityMembers" "{{ common.customer_id }}_{{ common.solution_id }}-COMMUNITY" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}"
+    name = "comm{{ common.vni }}"
+    members = "{{ common.target }}"
+}
+
+
+resource "junos-vqfx_ProtocolsEvpnVni__OptionsVniVrf__TargetCommunity" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}"
+    community = "comm{{ common.vni }}"
+    name = "{{ common.target }}"
+}
+
+resource "junos-vqfx_ProtocolsEvpnExtended__Vni__List" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}"
+    extended__vni__list = "{{ common.vni }}"
+}
+
+resource "junos-vqfx_Policy__OptionsPolicy__StatementTermFromCommunity" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}"
+    name = "POL_DEFAULT-VSWITCH-IMPORT"
+    name__1 = "t1"
+    community = "comm{{ common.vni }}"
+}
+
+resource "junos-vqfx_Policy__OptionsPolicy__StatementTermThenAccept" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}"
+    name = "POL_DEFAULT-VSWITCH-IMPORT"
+    name__1 = "t1"
+    accept = ""
+}
+
+
+{% for interface in devices.vqfx.interfaces %}
+{% set interface_data = devices.vqfx.interfaces[interface] %}
+resource "junos-vqfx_InterfacesInterfaceDescription" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}"
+    name = "{{ interface }}"
+    description = "{{ interface_data.description }}"
+}
+
+resource "junos-vqfx_InterfacesInterfaceMtu" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}"
+    name = "{{ interface }}"
+    mtu = "{{ interface_data.description }}"
+}
+
+resource "junos-vqfx_InterfacesInterfaceDisable" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}"
+    name = "{{ interface }}"
+    disable = "false"
+}
+
+resource "junos-vqfx_InterfacesInterfaceUnitFamilyEthernet__SwitchingInterface__Mode" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}"
+    name = "{{ interface }}"
+    interface__mode = "access"
+}
+
+resource "junos-vqfx_InterfacesInterfaceUnitFamilyEthernet__SwitchingVlanMembers" "demo" {
+    resource_name = "{{ common.customer_id }}_{{ common.solution_id }}"
+    name = "{{ interface }}"
+    name__1 = "0"
+    members = "{{ common.vlan }}"
+}
+
+{% endfor %}
+

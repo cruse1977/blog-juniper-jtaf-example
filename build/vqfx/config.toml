@@ -1,0 +1,5 @@
+yangDir = "/home/kitsupport/workspace/new/build/vqfx"
+providerDir = "/home/kitsupport/workspace/new/build/vqfx/provider"
+xpathPath = "/home/kitsupport/workspace/new/build/vqfx/xpath_test.xml"
+fileType = "both"
+providerName = "vqfx"

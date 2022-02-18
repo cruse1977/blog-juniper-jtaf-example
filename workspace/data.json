@@ -1,0 +1,42 @@
+{
+    "common": {
+        "solution_id": 1234,
+        "customer_id": "MA24",
+        "vni": 5010,
+        "target": "target:65000:5010",
+        "vlan": 10
+    },
+    "devices": {
+        "vqfx": {
+            "interfaces": {
+                "xe-0/0/1": {
+                    "description": "MA24_SOL1234 - Port 1",
+                    "mtu": 1524
+                }
+
+            }
+        },
+        "vmx": {
+            "interfaces": {
+                "irb": {
+                    "5010": {
+                        "prefixes": {
+                            "192.168.2.3/24": {
+                                "virtual": "192.168.2.1"
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+
+
+
+}
